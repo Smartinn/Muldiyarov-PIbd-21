@@ -101,6 +101,12 @@ namespace Lab2
             startPosY = 60;
         }
 
+        public override void setPos(int x, int y)
+        {
+            startPosX = x;
+            startPosY = y+50;
+        }
+
         public override void makesound(Graphics g)
         {
             draw(g);
@@ -128,15 +134,15 @@ namespace Lab2
             rect = new Rectangle((int)startPosX +13, (int)startPosY + 41, 20, 20);
             g.FillPie(brush, rect, 0, 360);
             brush = new SolidBrush(Color.Brown);
-            g.FillRectangle(brush, new Rectangle((int)startPosX+18, 10, 10, 85));
-            g.FillRectangle(brush, new Rectangle((int)startPosX + 15, 123, 16, 4));
+            g.FillRectangle(brush, new Rectangle((int)startPosX + 18, (int)startPosY - 50, 10, 85));
+            g.FillRectangle(brush, new Rectangle((int)startPosX + 15, (int)startPosY + 63, 16, 4));
             pen = new Pen(Color.Black, 2);
-            g.DrawRectangle(pen, new Rectangle((int)startPosX + 18, 10, 10, 85));
-            g.DrawRectangle(pen, new Rectangle((int)startPosX + 15, 123, 16, 4));
+            g.DrawRectangle(pen, new Rectangle((int)startPosX + 18, (int)startPosY - 50, 10, 85));
+            g.DrawRectangle(pen, new Rectangle((int)startPosX + 15, (int)startPosY + 63, 16, 4));
             brush = new SolidBrush(Color.Brown);
-            g.FillRectangle(brush, new Rectangle((int)startPosX + 16, 5, 14, 20));
+            g.FillRectangle(brush, new Rectangle((int)startPosX + 16, (int)startPosY - 55, 14, 20));
             pen = new Pen(Color.Black, 2);
-            g.DrawRectangle(pen, new Rectangle((int)startPosX + 16, 5, 14, 20));
+            g.DrawRectangle(pen, new Rectangle((int)startPosX + 16, (int)startPosY - 55, 14, 20));
         }
 
 

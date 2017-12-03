@@ -20,6 +20,7 @@ namespace Lab2
         int powerUsilit;
         int countstrun;
 
+        ClassShop <Interface> shop;
         private Interface inter;
 
         public Form1()
@@ -34,102 +35,84 @@ namespace Lab2
             countstrun = 3;
             button1.BackColor = color;
             button2.BackColor = dopColor;
+            shop = new ClassShop<Interface>(25, null);
+            DrawShop();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void DrawShop()
         {
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {   
-                color = cd.Color;
-                button1.BackColor = color;
-            }
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                dopColor = cd.Color;
-                button2.BackColor = dopColor;
-            }
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (checkFields())
-            {
-                inter = new Gitara(maxSound, maxCountMusic, weight, countstrun, color);
-                Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
-                Graphics gr = Graphics.FromImage(bmp);
-                inter.draw(gr);
-                pictureBox2.Image = bmp;
-            }
-        }
-
-        private bool checkFields()
-        {
-            if (!int.TryParse(textBox1.Text, out maxSound))
-            {
-                return false;
-            }
-            if (!int.TryParse(textBox2.Text, out maxCountMusic))
-            {
-                return false;
-            }
-            if (!int.TryParse(textBox3.Text, out powerUsilit))
-            {
-                return false;
-            }
-            if (!int.TryParse(textBox4.Text, out weight))
-            {
-                return false;
-            }
-            if (!int.TryParse(textBox5.Text, out countstrun))
-            {
-                return false;
-            }
-            return true;
+            Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+            Graphics gr = Graphics.FromImage(bmp);
+            shop.Draw(gr, pictureBox2.Width, pictureBox2.Height);
+            pictureBox2.Image = bmp;
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
 
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void button4_Click_1(object sender, EventArgs e)
         {
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
         {
-            if (checkFields())
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ColorDialog dialog = new ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                inter = new Sounds(maxSound, maxCountMusic, weight, countstrun, powerUsilit,color,dopColor);
-                Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
-                Graphics gr = Graphics.FromImage(bmp);
-                inter.draw(gr);
-                pictureBox2.Image = bmp;
+                var shlak = new Gitara(30, 2, 1500, 3,dialog.Color);
+                int place = shop + shlak ;
+                DrawShop();
+                MessageBox.Show("Вашеместо: " + place);
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            if (inter != null)
+            ColorDialog dialog = new ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
-                Graphics gr = Graphics.FromImage(bmp);
-                inter.makesound(gr);
-                pictureBox2.Image = bmp;
-                pictureBox2.Refresh();
+                ColorDialog dialogDop = new ColorDialog();
+                if (dialogDop.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var shlak= new Sounds(30, 2, 1500, 3,2,dialog.Color, dialogDop.Color);
+                    int place = shop + shlak;
+                    DrawShop();
+                    MessageBox.Show("Вашеместо: " + place);
+                 }
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (maskedTextBox1.Text != "")
+            {
+                Interface shlak = shop - Convert.ToInt32(maskedTextBox1.Text);
+                if (shlak != null)
+                {
+                    Bitmap bmp = new Bitmap(pictureBox3.Width, pictureBox3.Height);
+                    Graphics gr = Graphics.FromImage(bmp);
+                    shlak.setPos(15, 40);
+                    shlak.draw(gr);
+                    pictureBox3.Image = bmp;
+                    DrawShop();
+                }
+                else
+                {
+                    MessageBox.Show("Здесь пусто");
+                }
+            }
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

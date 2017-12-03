@@ -13,7 +13,7 @@ namespace Lab2
 
         void draw(Graphics g);
 
-        void setPosition(int x, int y);
+        void setPos(int x, int y);
 
         void loadMusic(int count);
 
