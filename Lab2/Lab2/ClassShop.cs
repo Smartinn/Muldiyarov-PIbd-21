@@ -9,28 +9,34 @@ namespace Lab2
 {
     class ClassShop<T> where T : Interface
     {
-        private T[] places;
+        private Dictionary<int, T> places;
+        private int maxCount;
         private T defaultValue;
 
         public static int operator +(ClassShop<T> p, T git)
         {
-            for(int i = 0; i < p.places.Length; i++)
+            if(p.places.Count == p.maxCount)
+            {
+                return -1;
+            }
+            for(int i = 0; i < p.places.Count; i++)
             {
                 if (p.CheckFreePlace(i))
                 {
-                    p.places[i] = git;
+                    p.places.Add(i, git);
                     return i;
                 }
             }
-            return -1;
+            p.places.Add(p.places.Count, git);
+            return p.places.Count - 1;
         }
 
         public static T operator -(ClassShop<T> p, int index)
         {
-            if (!p.CheckFreePlace(index))
+            if (p.places.ContainsKey(index))
             {
                 T git = p.places[index];
-                p.places[index] = p.defaultValue;
+                p.places.Remove(index);
                 return git;
             }
             return p.defaultValue;
@@ -38,73 +44,26 @@ namespace Lab2
 
         private bool CheckFreePlace(int index)
         {
-            if(index <0 || index > places.Length)
-            {
-                return false;
-            }
-            if (places[index] == null)
-            {
-                return true;
-            }
-            if (places[index].Equals(defaultValue))
-            {
-                return true;
-            }
-            return false;
+            return !places.ContainsKey(index);
         }
 
-        public ClassShop(int sizes, T defVal)
+        public ClassShop(int size, T defVal)
         {
             defaultValue = defVal;
-            places = new T[sizes];
-            for(int i = 0; i < places.Length; i++)
-            {
-                places[i] = defaultValue;
-            }
+            places = new Dictionary<int, T>();
+            maxCount = size;
         }
-
-        public T gerObject(int ind)
+        public T this [int ind]
         {
-            if(ind >-1 && ind < places.Length)
+            get
             {
-                return places[ind];
+                if (places.ContainsKey(ind))
+                {
+                    return places[ind];
+                }
+                return defaultValue;
             }
-            return defaultValue;
-        }
-
-        public void Draw(Graphics g, int width, int height)
-        {
-            Pen pen = new Pen(Color.Black, 3);
-            g.DrawRectangle(pen, 0, 0, width, height);
-            int gitCount = 0;
-            for (int i = 0, chet = 0; i < width; chet++)
-            {
-                for (int j = 0; (j + 1) * 220 < height; ++j)
-                {
-                    if (gitCount < places.Length)
-                    {
-                        if (places[gitCount] != null)
-                        {
-                            if (places[gitCount] is Interface)
-                            {
-                                (places[gitCount] as Interface).setPos(i + 40, j * 220 + 58);
-                                (places[gitCount] as Interface).draw(g);
-                            }
-                        }
-                        gitCount++;
-                    }
-                    g.DrawLine(pen, i, j * 220 + 30, i + 130, j * 220 + 30);
-                }
-                if (chet % 2 == 0)
-                {
-                    i += 180;
-                }
-                else
-                {
-                    g.DrawLine(pen, i + 140, 5, i + 140, height - 5);
-                    i += 145;
-                }
-            }
+        
         }
     }
 

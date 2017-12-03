@@ -12,39 +12,29 @@ namespace Lab2
 {
     public partial class Form1 : Form
     {
-        Color color;
-        Color dopColor;
-        int maxSound;
-        int maxCountMusic;
-        int weight;
-        int powerUsilit;
-        int countstrun;
-
-        ClassShop <Interface> shop;
-        private Interface inter;
+        Shop shoping;
 
         public Form1()
         {
             InitializeComponent();
-            color = Color.White;
-            dopColor = Color.Yellow;
-            maxSound = 150;
-            maxCountMusic = 4;
-            weight = 1500;
-            powerUsilit = 1;
-            countstrun = 3;
-            button1.BackColor = color;
-            button2.BackColor = dopColor;
-            shop = new ClassShop<Interface>(25, null);
+            shoping = new Shop(5);
+            for(int i = 1; i < 6; i++)
+            {
+                listBox1.Items.Add("Уровень " + i);
+            }
+            listBox1.SelectedIndex = shoping.getCurrentLevel;
             DrawShop();
         }
 
         private void DrawShop()
         {
-            Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
-            Graphics gr = Graphics.FromImage(bmp);
-            shop.Draw(gr, pictureBox2.Width, pictureBox2.Height);
-            pictureBox2.Image = bmp;
+            if (listBox1.SelectedIndex > -1)
+            {
+                Bitmap bmp = new Bitmap(pictureBox2.Width, pictureBox2.Height);
+                Graphics gr = Graphics.FromImage(bmp);
+                shoping.Draw(gr);
+                pictureBox2.Image = bmp;
+            }
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
@@ -67,7 +57,7 @@ namespace Lab2
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 var shlak = new Gitara(30, 2, 1500, 3,dialog.Color);
-                int place = shop + shlak ;
+                int place = shoping.PutGitInShoping(shlak);
                 DrawShop();
                 MessageBox.Show("Вашеместо: " + place);
             }
@@ -82,7 +72,7 @@ namespace Lab2
                 if (dialogDop.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     var shlak= new Sounds(30, 2, 1500, 3,2,dialog.Color, dialogDop.Color);
-                    int place = shop + shlak;
+                    int place = shoping.PutGitInShoping(shlak);
                     DrawShop();
                     MessageBox.Show("Вашеместо: " + place);
                  }
@@ -91,28 +81,53 @@ namespace Lab2
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (maskedTextBox1.Text != "")
+
+            if (listBox1.SelectedIndex > -1)
             {
-                Interface shlak = shop - Convert.ToInt32(maskedTextBox1.Text);
-                if (shlak != null)
+                //string level = listBox1.Items[listBox1.SelectedIndex].ToString();
+                if (maskedTextBox1.Text != "")
                 {
-                    Bitmap bmp = new Bitmap(pictureBox3.Width, pictureBox3.Height);
-                    Graphics gr = Graphics.FromImage(bmp);
-                    shlak.setPos(15, 40);
-                    shlak.draw(gr);
-                    pictureBox3.Image = bmp;
-                    DrawShop();
+                    Interface git = shoping.GetGitInShoping(Convert.ToInt32(maskedTextBox1.Text));
+                    if (git != null)
+                    {
+                        Bitmap bmp = new Bitmap(pictureBox3.Width, pictureBox3.Height);
+                        Graphics gr = Graphics.FromImage(bmp);
+                        git.setPos(5, 15);
+                        git.draw(gr);
+                        pictureBox3.Image = bmp;
+                        DrawShop();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Извинте, на этом месте нет");
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Здесь пусто");
-                }
+
             }
         }
 
         private void pictureBox3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            shoping.LevelDown();
+            listBox1.SelectedIndex = shoping.getCurrentLevel;
+            DrawShop();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            shoping.LevelUp();
+            listBox1.SelectedIndex = shoping.getCurrentLevel;
+            DrawShop();
         }
     }
 }
