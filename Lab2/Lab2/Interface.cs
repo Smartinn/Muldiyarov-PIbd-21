@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab2
 {
-    interface Interface
+    public interface Interface
     {
         void makesound(Graphics g);
 
@@ -18,5 +18,7 @@ namespace Lab2
         void loadMusic(int count);
 
         int getMusic();
+
+        void setMainColor(Color color);
     }
 }

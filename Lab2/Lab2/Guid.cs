@@ -55,5 +55,10 @@ namespace Lab2
             countMusic = 0;
             return count;
         }
+
+        public virtual void setMainColor(Color color)
+        {
+            ColorBoby = color;
+        }
     }
 }

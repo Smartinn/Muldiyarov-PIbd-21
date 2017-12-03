@@ -9,7 +9,6 @@ namespace Lab2
 {
     class Shop
     {
-        //ClassShop<Interface> shoping;
         List<ClassShop<Interface>> shoping;
         int countPlaces =6;
         int placesSizeWidth = 210;
@@ -28,7 +27,6 @@ namespace Lab2
             {
                 shoping.Add(new ClassShop<Interface>(countPlaces, null));
             } 
-            //shoping = new ClassShop<Interface>(countPlaces, null);
         }
 
         public void LevelUp()

@@ -47,12 +47,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassShop.cs" />
-    <Compile Include="Gitara.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="FormSelect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FormSelect.Designer.cs">
+      <DependentUpon>FormSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gitara.cs" />
+    <Compile Include="FormShop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormShop.Designer.cs">
+      <DependentUpon>FormShop.cs</DependentUpon>
     </Compile>
     <Compile Include="Guid.cs" />
     <Compile Include="Interface.cs" />
@@ -60,8 +66,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shop.cs" />
     <Compile Include="Sounds.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="FormShop.resx">
+      <DependentUpon>FormShop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSelect.resx">
+      <DependentUpon>FormSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
