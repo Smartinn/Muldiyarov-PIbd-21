@@ -26,5 +26,10 @@ namespace Lab2
             g.FillRectangle(br,startPosX, startPosY +60, 5, 75);
             base.drawSound(g);
         }
+
+        public void setDopColor(Color color)
+        {
+            dopColor = color;
+        }
     }
 }
