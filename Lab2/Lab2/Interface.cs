@@ -13,12 +13,14 @@ namespace Lab2
 
         void draw(Graphics g);
 
-        void setPos(int x, int y);
+        void setPos(int x, int y); 
 
         void loadMusic(int count);
 
         int getMusic();
 
         void setMainColor(Color color);
+
+        string getInfo();
     }
 }

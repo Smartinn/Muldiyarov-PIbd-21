@@ -60,5 +60,7 @@ namespace Lab2
         {
             ColorBoby = color;
         }
+
+        public abstract string getInfo();
     }
 }

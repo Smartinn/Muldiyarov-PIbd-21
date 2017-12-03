@@ -101,6 +101,23 @@ namespace Lab2
             startPosY = 60;
         }
 
+        public Gitara(string info)
+        {
+            string[] strs = info.Split(';');
+            if (strs.Length == 5)
+            {
+                MaxSound = Convert.ToInt32(strs[0]);
+                MaxCountMusic = Convert.ToInt32(strs[1]);
+                Weight = Convert.ToInt32(strs[2]);
+                countStrun = Convert.ToInt32(strs[3]);
+                ColorBoby = Color.FromName(strs[4]);
+            }
+            this.countMusic = 0;
+            Random rand = new Random();
+            startPosX = rand.Next(10, 200);
+            startPosY = rand.Next(10, 200);
+        }
+
         public override void setPos(int x, int y)
         {
             startPosX = x;
@@ -144,8 +161,7 @@ namespace Lab2
             pen = new Pen(Color.Black, 2);
             g.DrawRectangle(pen, new Rectangle((int)startPosX + 16, (int)startPosY - 55, 14, 20));
         }
-
-
+        
         protected virtual void drawSounds(Graphics g)
         {
             Pen pen = new Pen(Color.Black, 4);
@@ -156,6 +172,11 @@ namespace Lab2
                 rect = new Rectangle((int)startPosX + i * 2, (int)startPosY - 5 * i, 60 + 10 * i, 60 + 10 * i);
                 g.DrawArc(pen, rect, 315, 90);
             }
+        }
+
+        public override string getInfo()
+        {
+            return MaxSound + ";" + MaxCountMusic + ";" + Weight + ";" + countStrun + ";" + ColorBoby.Name;
         }
     }
 }
