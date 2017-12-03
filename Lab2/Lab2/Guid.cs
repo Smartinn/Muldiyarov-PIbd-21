@@ -15,6 +15,12 @@ namespace Lab2
 
         protected int countMusic;
 
+        public virtual void setPos(int x, int y)
+        {
+            startPosX = x;
+            startPosY = y;
+        }
+
         public virtual int MaxCountMusic { protected set; get; }
 
         public virtual int MaxSound { protected set; get; }
