@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 public interface Interface {
@@ -10,4 +11,6 @@ public interface Interface {
 	void loadMusic(int count);
 
 	int getMusic();
+	
+	void setMainColor(Color color);
 }

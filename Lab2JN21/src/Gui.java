@@ -59,6 +59,16 @@ public class Gui {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+
+	public void getGit() {
+		SelectGui select = new SelectGui(frame);
+		if (select.res()) {
+			Interface git = select.getGit();
+			int place = shoping.putGitInShoping(git);
+			panel.repaint();
+		}
+	}
+
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 874, 618);
@@ -68,48 +78,6 @@ public class Gui {
 		panel = new Former(shoping);
 		panel.setBounds(10, 11, 500, 498);
 		frame.getContentPane().add(panel);
-
-		JButton btnSetPlane = new JButton(
-				"\u0413\u0438\u0442\u0430\u0440\u0430");
-		btnSetPlane.setBounds(540, 332, 115, 23);
-		btnSetPlane.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				Color colorDialog = JColorChooser.showDialog(null,
-						"JColorChooser Sample", null);
-				if (colorDialog != null) {
-					Interface git = new Gitara(30, 2, 1500, 3, colorDialog);
-					int place = shoping.putGitInShoping(git);
-					panel.repaint();
-					JOptionPane.showMessageDialog(null, "Ваша гитара " + place);
-				}
-			}
-		});
-		frame.getContentPane().add(btnSetPlane);
-
-		JButton btnSetFigther = new JButton(
-				"\u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u0430\u044F");
-		btnSetFigther.setBounds(540, 366, 115, 23);
-		btnSetFigther.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Color colorDialog1 = JColorChooser.showDialog(null,
-						"JColorChooser Sample", null);
-				if (colorDialog1 != null) {
-					Color colorDialog = JColorChooser.showDialog(null,
-							"JColorChooser Sample", null);
-					if (colorDialog != null) {
-						Interface git = new Sounds(30, 2, 1500, 3, 2,
-								colorDialog, colorDialog1);
-						int place = shoping.putGitInShoping(git);
-						panel.repaint();
-						JOptionPane.showMessageDialog(null, "Ваша гитара "
-								+ place);
-					}
-				}
-
-			}
-		});
-		frame.getContentPane().add(btnSetFigther);
 
 		panelTake = new JPanel();
 		panelTake.setBounds(540, 11, 115, 245);
@@ -135,11 +103,21 @@ public class Gui {
 		});
 		frame.getContentPane().add(btnTake);
 
+		JButton btnGetGit = new JButton("Получить гитару");
+		btnGetGit.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
+				getGit();
+			}
+		});
+		btnGetGit.setBounds(540, 321, 115, 23);
+		frame.getContentPane().add(btnGetGit);
+
 		numPlace = new JTextField();
 		numPlace.setBounds(540, 267, 115, 20);
 		frame.getContentPane().add(numPlace);
 		numPlace.setColumns(10);
-		
+
 		listLevels = new JList(elements);
 		listLevels.setBounds(668, 11, 186, 111);
 		frame.getContentPane().add(listLevels);
@@ -165,7 +143,7 @@ public class Gui {
 		});
 		btnLevelUp.setBounds(765, 133, 89, 23);
 		frame.getContentPane().add(btnLevelUp);
-		
+
 	}
 
 	private boolean checkPlace(String str) {

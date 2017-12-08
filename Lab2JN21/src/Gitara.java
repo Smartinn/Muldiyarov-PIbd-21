@@ -69,7 +69,10 @@ public class Gitara extends Guid {
 		startPosX = x;
 		startPosY = y + 50;
 	}
-
+	
+	public void setMainColor(Color c){
+		ColorBody = c;
+	}
 	public void makesound(Graphics g) {
 		draw(g);
 		drawSounds(g);
