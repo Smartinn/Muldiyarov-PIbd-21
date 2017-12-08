@@ -17,4 +17,6 @@ public class Sounds extends Gitara {
 		g.fillRect(startPosX, startPosY + 60, 5, 75);
 		super.drawSound(g);
 	}
+	
+
 }

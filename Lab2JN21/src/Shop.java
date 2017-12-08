@@ -1,29 +1,47 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 public class Shop {
-	ClassShop<Interface> shoping;
-
+	ArrayList<ClassShop<Interface>> shopingStages;
 	int countPlaces = 6;
 	int placeWidth = 140;
 	int placeHeight = 250;
+	int currentLevel;
 
-	public Shop() {
-		shoping = new ClassShop<Interface>(countPlaces, null);
+	public Shop(int countStages) {
+		shopingStages = new ArrayList<ClassShop<Interface>>(countStages);
+		for (int i = 0; i < countStages; i++) {
+			shopingStages.add(new ClassShop<Interface>(countPlaces, null));
+		}
+	}
+
+	public int getCurrentLevel() {
+		return currentLevel;
+	}
+
+	public void levelUp() {
+		if (currentLevel + 1 < shopingStages.size())
+			currentLevel++;
+	}
+
+	public void levelDown() {
+		if (currentLevel > 0)
+			currentLevel--;
 	}
 
 	public int putGitInShoping(Interface git) {
-		return shoping.plus(shoping, git);
+		return shopingStages.get(currentLevel).plus(shopingStages.get(currentLevel), git);
 	}
 
 	public Interface GetGitInShoping(int index) {
-		return shoping.minus(shoping, index);
+		return shopingStages.get(currentLevel).minus(shopingStages.get(currentLevel), index);
 	}
 
 	public void draw(Graphics g, int width, int height) {
 		drawMarking(g);
 		for (int i = 0; i < countPlaces; i++) {
-			Interface git = shoping.getObject(i);
+			Interface git = shopingStages.get(currentLevel).getGit(i);
 			if (git != null) {
 				git.setPos(5 + i / 2 * placeWidth + 30, i % 2 * placeHeight
 						+ 20);
