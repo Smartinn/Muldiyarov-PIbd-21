@@ -4,20 +4,15 @@ import javax.swing.JPanel;
 
 
 public class Former extends JPanel{
-	Interface inter;
+	Shop inter;
 	
-	public Former(Interface inter){
+	public Former(Shop inter){
 		this.inter = inter;
 	}
 	
 	public void paint(Graphics g){
 		super.paint(g);
-		Git(g,inter);
+		inter.draw(g, this.getWidth(),this.getHeight());
 	}
 	
-	public void Git(Graphics g,Interface inter){
-		if(inter!=null){
-			inter.draw(g);
-		}
-	}
 }

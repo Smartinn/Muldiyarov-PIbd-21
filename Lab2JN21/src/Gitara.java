@@ -65,6 +65,11 @@ public class Gitara extends Guid {
 		startPosY = 100;
 	}
 
+	public void setPos(int x, int y) {
+		startPosX = x;
+		startPosY = y + 50;
+	}
+
 	public void makesound(Graphics g) {
 		draw(g);
 		drawSounds(g);
@@ -107,8 +112,8 @@ public class Gitara extends Guid {
 		g2.setColor(Color.BLACK);
 		for (int i = 0; i < (int) (Weight * countStrun * MaxSound
 				* MaxCountMusic / 8 + 2); i++) {
-			g2.drawArc(startPosX + i * 5, startPosY - 5 * i, 60 + 10 * i, 60 + 10*i,
-					315, 90);
+			g2.drawArc(startPosX + i * 5, startPosY - 5 * i, 60 + 10 * i,
+					60 + 10 * i, 315, 90);
 		}
 
 	}
