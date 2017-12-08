@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -15,15 +17,9 @@ public class Gui {
 
 	private JFrame frame;
 	private JPanel panel;
-	private Color color;
-	private Color dopColor;
-	private int maxSound;
-	private int maxCountMusic;
-	private int weight;
-	private int powerUsilit;
-	private int countstrun;
-
-	private Interface inter;
+	private JPanel panelTake;
+	private JTextField numPlace;
+	Shop shoping;
 
 	/**
 	 * Launch the application.
@@ -43,16 +39,12 @@ public class Gui {
 
 	/**
 	 * Create the application.
+	 * 
+	 * @wbp.parser.entryPoint
 	 */
 	public Gui() {
+		shoping = new Shop();
 		initialize();
-		color = Color.WHITE;
-		dopColor = Color.YELLOW;
-		maxSound = 150;
-		maxCountMusic = 4;
-		weight = 15;
-		powerUsilit = 1;
-		countstrun = 3;
 	}
 
 	/**
@@ -60,108 +52,97 @@ public class Gui {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 745, 635);
+		frame.setBounds(100, 100, 695, 543);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(10, 487, 102, 21);
-		frame.getContentPane().add(textArea);
+		JPanel panel = new Former(shoping);
+		panel.setBounds(10, 11, 500, 498);
+		frame.getContentPane().add(panel);
 
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setBounds(10, 516, 102, 21);
-		frame.getContentPane().add(textArea_1);
-
-		JTextArea textArea_2 = new JTextArea();
-		textArea_2.setBounds(122, 516, 102, 22);
-		frame.getContentPane().add(textArea_2);
-
-		JTextArea textArea_3 = new JTextArea();
-		textArea_3.setBounds(122, 487, 102, 22);
-		frame.getContentPane().add(textArea_3);
-
-		JTextArea textArea_4 = new JTextArea();
-		textArea_4.setBounds(234, 487, 102, 21);
-		frame.getContentPane().add(textArea_4);
-
-		JButton btnGitara = new JButton("Gitara");
-		btnGitara.addActionListener(new ActionListener() {
+		JButton btnSetPlane = new JButton(
+				"\u0413\u0438\u0442\u0430\u0440\u0430");
+		btnSetPlane.setBounds(540, 332, 115, 23);
+		btnSetPlane.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!textArea.getText().equals("")
-						&& !textArea_1.getText().equals("")
-						&& !textArea_2.getText().equals("")
-						&& !textArea_3.getText().equals("")) {
-					maxSound = Integer.parseInt(textArea.getText());
-					maxCountMusic = Integer.parseInt(textArea_1.getText());
-					weight = Integer.parseInt(textArea_2.getText());
-					countstrun = Integer.parseInt(textArea_3.getText());
-					inter = new Gitara(maxSound, maxCountMusic, weight,
-							countstrun, color);
-					panel = new Former(inter);
-					panel.setBounds(12, 13, 794, 473);
-					frame.getContentPane().add(panel);
-					panel.updateUI();
+
+				Color colorDialog = JColorChooser.showDialog(null,
+						"JColorChooser Sample", null);
+				if (colorDialog != null) {
+					Interface git = new Gitara(30, 2, 1500, 3, colorDialog);
+					int place = shoping.putGitInShoping(git);
+					panel.repaint();
+					JOptionPane.showMessageDialog(null, "Ваша гитара " + place);
 				}
+
 			}
 		});
-		btnGitara.setBounds(10, 432, 147, 44);
-		frame.getContentPane().add(btnGitara);
+		frame.getContentPane().add(btnSetPlane);
 
-		JButton btnColor_1 = new JButton("Color1");
-		btnColor_1.addActionListener(new ActionListener() {
+		JButton btnSetFigther = new JButton(
+				"\u042D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u0430\u044F");
+		btnSetFigther.setBounds(540, 366, 115, 23);
+		btnSetFigther.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				color = JColorChooser.showDialog(btnColor_1, "öâåò", color);
+				Color colorDialog1 = JColorChooser.showDialog(null,
+						"JColorChooser Sample", null);
+				if (colorDialog1 != null) {
+					Color colorDialog = JColorChooser.showDialog(null,
+							"JColorChooser Sample", null);
+					if (colorDialog != null) {
+						Interface git = new Sounds(30, 2, 1500, 3, 2,
+								colorDialog, colorDialog1);
+						int place = shoping.putGitInShoping(git);
+						panel.repaint();
+						JOptionPane.showMessageDialog(null, "Ваша гитара "
+								+ place);
+					}
+				}
+
 			}
 		});
-		btnColor_1.setBounds(234, 516, 102, 25);
-		frame.getContentPane().add(btnColor_1);
+		frame.getContentPane().add(btnSetFigther);
 
-		JButton btnColor = new JButton("Color2");
-		btnColor.addActionListener(new ActionListener() {
+		panelTake = new JPanel();
+		panelTake.setBounds(540, 11, 115, 245);
+		frame.getContentPane().add(panelTake);
+
+		JButton btnTake = new JButton("\u0412\u0437\u044F\u0442\u044C");
+		btnTake.setBounds(540, 298, 115, 23);
+		btnTake.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				dopColor = JColorChooser.showDialog(btnColor_1, "öâåò",
-						dopColor);
-			}
-		});
-		btnColor.setBounds(346, 487, 102, 25);
-		frame.getContentPane().add(btnColor);
 
-		JButton btnElgitara = new JButton("ElGitara");
-		btnElgitara.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!textArea.getText().equals("")
-						&& !textArea_1.getText().equals("")
-						&& !textArea_2.getText().equals("")
-						&& !textArea_3.getText().equals("")) {
-					maxSound = Integer.parseInt(textArea.getText());
-					maxCountMusic = Integer.parseInt(textArea_1.getText());
-					weight = Integer.parseInt(textArea_2.getText());
-					countstrun = Integer.parseInt(textArea_3.getText());
-					powerUsilit = Integer.parseInt(textArea_4.getText());
-					inter = new Sounds(maxSound, maxCountMusic, weight,
-							countstrun, powerUsilit, color, dopColor);
-					panel = new Former(inter);
-					panel.setBounds(12, 13, 794, 473);
-					frame.getContentPane().add(panel);
-					panel.updateUI();
+				if (checkPlace(numPlace.getText())) {
+					Interface plane = shoping.GetGitInShoping(Integer
+							.parseInt(numPlace.getText()));
+					Graphics gr = panelTake.getGraphics();
+					gr.clearRect(0, 0, panelTake.getWidth(),
+							panelTake.getHeight());
+					plane.setPos(35, 10);
+					plane.draw(gr);
+					panel.repaint();
 				}
-			}
-		});
-		btnElgitara.setBounds(167, 432, 147, 44);
-		frame.getContentPane().add(btnElgitara);
 
-		JButton btnSound = new JButton("Sound");
-		btnSound.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!textArea.getText().equals("")
-						&& !textArea_1.getText().equals("")
-						&& !textArea_2.getText().equals("")
-						&& !textArea_3.getText().equals("") && inter != null) {
-					inter.makesound(panel.getGraphics());
-				}
 			}
 		});
-		btnSound.setBounds(346, 516, 102, 25);
-		frame.getContentPane().add(btnSound);
+		frame.getContentPane().add(btnTake);
+
+		numPlace = new JTextField();
+		numPlace.setBounds(540, 267, 115, 20);
+		frame.getContentPane().add(numPlace);
+		numPlace.setColumns(10);
+
+	}
+
+	private boolean checkPlace(String str) {
+		try {
+			Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		if (Integer.parseInt(str) > 20)
+			return false;
+		return true;
 	}
 }
