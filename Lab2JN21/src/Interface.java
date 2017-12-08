@@ -13,4 +13,6 @@ public interface Interface {
 	int getMusic();
 	
 	void setMainColor(Color color);
+	
+	String getInfo();
 }

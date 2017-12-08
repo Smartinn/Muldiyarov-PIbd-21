@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class ClassShop<T extends Interface> {
+public class ClassShop<T extends Interface> implements Serializable {
 
 	private T defaultValue;
 	private Dictionary<Integer, T> places;
