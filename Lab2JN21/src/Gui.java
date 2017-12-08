@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -19,6 +20,8 @@ public class Gui {
 	private JPanel panel;
 	private JPanel panelTake;
 	private JTextField numPlace;
+	private String[] elements = new String[6];
+	JList listLevels;
 	Shop shoping;
 
 	/**
@@ -43,8 +46,14 @@ public class Gui {
 	 * @wbp.parser.entryPoint
 	 */
 	public Gui() {
-		shoping = new Shop();
+		shoping = new Shop(5);
 		initialize();
+
+		for (int i = 0; i < 5; i++) {
+			elements[i] = "Уровнь " + (i + 1);
+		}
+
+		listLevels.setSelectedIndex(shoping.getCurrentLevel());
 	}
 
 	/**
@@ -52,11 +61,11 @@ public class Gui {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 695, 543);
+		frame.setBounds(100, 100, 874, 618);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JPanel panel = new Former(shoping);
+		panel = new Former(shoping);
 		panel.setBounds(10, 11, 500, 498);
 		frame.getContentPane().add(panel);
 
@@ -74,7 +83,6 @@ public class Gui {
 					panel.repaint();
 					JOptionPane.showMessageDialog(null, "Ваша гитара " + place);
 				}
-
 			}
 		});
 		frame.getContentPane().add(btnSetPlane);
@@ -131,7 +139,33 @@ public class Gui {
 		numPlace.setBounds(540, 267, 115, 20);
 		frame.getContentPane().add(numPlace);
 		numPlace.setColumns(10);
+		
+		listLevels = new JList(elements);
+		listLevels.setBounds(668, 11, 186, 111);
+		frame.getContentPane().add(listLevels);
 
+		JButton btnLevelDown = new JButton("<<");
+		btnLevelDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				shoping.levelDown();
+				listLevels.setSelectedIndex(shoping.getCurrentLevel());
+				panel.repaint();
+			}
+		});
+		btnLevelDown.setBounds(665, 133, 89, 23);
+		frame.getContentPane().add(btnLevelDown);
+
+		JButton btnLevelUp = new JButton(">>");
+		btnLevelUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				shoping.levelUp();
+				listLevels.setSelectedIndex(shoping.getCurrentLevel());
+				panel.repaint();
+			}
+		});
+		btnLevelUp.setBounds(765, 133, 89, 23);
+		frame.getContentPane().add(btnLevelUp);
+		
 	}
 
 	private boolean checkPlace(String str) {
