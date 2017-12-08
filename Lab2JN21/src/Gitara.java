@@ -3,8 +3,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Random;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Gitara extends Guid {
+public class Gitara extends Guid implements Serializable {
 	public int getMaxCountMusic() {
 		return super.MaxCountMusic;
 	}
@@ -120,5 +124,25 @@ public class Gitara extends Guid {
 		}
 
 	}
+	
+	@Override
+	public String getInfo() {
+		return MaxSound + ";" + MaxCountMusic + ";" + Weight + ";" + countStrun + ";" + ColorBody;
+	}
+	
+	private void writeObject(ObjectOutputStream s) throws IOException {
+        s.defaultWriteObject();
+        s.writeInt(ColorBody.getRed());
+        s.writeInt(ColorBody.getGreen());
+        s.writeInt(ColorBody.getBlue());
+    }
+
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        s.defaultReadObject();
+        int red = s.readInt();
+        int green = s.readInt();
+        int blue = s.readInt();
+        ColorBody = new Color(red, green, blue);
+    }
 
 }

@@ -3,12 +3,17 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -143,8 +148,48 @@ public class Gui {
 		});
 		btnLevelUp.setBounds(765, 133, 89, 23);
 		frame.getContentPane().add(btnLevelUp);
+		
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("File");
+		frame.setJMenuBar(menuBar);
+		menuBar.add(menu);
+		JMenuItem menuSave = new JMenuItem("Save");
+		menu.add(menuSave);
+		JMenuItem menuOpen = new JMenuItem("Open");
+		menu.add(menuOpen);
+
+		menuSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser filesave = new JFileChooser();
+
+				if (filesave.showDialog(null, "Save") == JFileChooser.APPROVE_OPTION) {
+					try {
+						if (shoping.save(filesave.getSelectedFile().getPath()))
+							if (filesave.getSelectedFile().getPath() != null)
+								System.out.println("Good");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+
+		menuOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileopen = new JFileChooser();
+				if (fileopen.showDialog(null, "Open") == JFileChooser.APPROVE_OPTION) {
+					if (shoping.load(fileopen.getSelectedFile().getPath()))
+						if (fileopen.getSelectedFile().getPath() != null)
+							System.out.println("Good");
+				}
+				panel.repaint();
+			}
+		});
 
 	}
+	
 
 	private boolean checkPlace(String str) {
 		try {
