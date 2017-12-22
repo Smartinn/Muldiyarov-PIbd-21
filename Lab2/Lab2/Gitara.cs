@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lab2
 {
-    class Gitara : Guid
+    class Gitara : Guid, IComparable<Gitara>, IEquatable<Gitara>
     {
         public override int MaxSound
         {
@@ -177,6 +177,83 @@ namespace Lab2
         public override string getInfo()
         {
             return MaxSound + ";" + MaxCountMusic + ";" + Weight + ";" + countStrun + ";" + ColorBoby.Name;
+        }
+
+        public int CompareTo(Gitara other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+            if(MaxSound != other.MaxSound)
+            {
+                return MaxSound.CompareTo(other.MaxSound);
+            }
+            if(MaxCountMusic != other.MaxCountMusic)
+            {
+                return MaxCountMusic.CompareTo(other.MaxCountMusic);
+            }
+            if(Weight != other.Weight)
+            {
+                return Weight.CompareTo(other.Weight);
+            }
+            if(countMusic != other.countMusic)
+            {
+                return countMusic.CompareTo(other.countMusic);
+            }
+            if(ColorBoby != other.ColorBoby)
+            {
+                return ColorBoby.Name.CompareTo(other.ColorBoby.Name);
+            }
+            return 0;
+        }
+
+        public bool Equals(Gitara other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (MaxSound != other.MaxSound)
+            {
+                return false;
+            }
+            if (MaxCountMusic != other.MaxCountMusic)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (countMusic != other.countMusic)
+            {
+                return false;
+            }
+            if (ColorBoby != other.ColorBoby)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj == null)
+            {
+                return false;
+            }
+            Gitara gitObj = obj as Gitara;
+            if(gitObj == null)
+            {
+                return false;
+            }else
+            return Equals(gitObj);
+        }
+
+        public override int GetHashCode()
+        {
+            return MaxSound.GetHashCode();
         }
     }
 }
