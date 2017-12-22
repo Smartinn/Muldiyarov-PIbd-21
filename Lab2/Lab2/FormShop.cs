@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,10 +16,11 @@ namespace Lab2
         Shop shoping;
 
         FormSelect form;
-
+        private Logger log;
         public FormShop()
         {
             InitializeComponent();
+            log = LogManager.GetCurrentClassLogger();
             shoping = new Shop(5);
             for(int i = 1; i < 6; i++)
             {
@@ -67,26 +69,61 @@ namespace Lab2
             }
         }
 
+        private void addGit(Interface git)
+        {
+            if (git != null)
+            {
+                try
+                {
+                    int place = shoping.PutGitInShoping(git);
+                    if (place > -1)
+                    {
+                        DrawShop();
+                        MessageBox.Show("Ваше место " + place);
+                        log.Info("Добавили Гитару на место " + place);
+                    }
+                }
+                catch (ShopOverFlow ex)
+                {
+                    MessageBox.Show(ex.Message, "Гитару поставить не удалось", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    log.Warn("Ошибка добавления гитары");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Общая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
-
             if (listBox1.SelectedIndex > -1)
             {
+                string level = listBox1.Items[listBox1.SelectedIndex].ToString();
                 if (maskedTextBox1.Text != "")
                 {
-                    Interface git = shoping.GetGitInShoping(Convert.ToInt32(maskedTextBox1.Text));
-                    if (git != null)
+                    try
                     {
-                        Bitmap bmp = new Bitmap(pictureBox3.Width, pictureBox3.Height);
-                        Graphics gr = Graphics.FromImage(bmp);
-                        git.setPos(5, 15);
-                        git.draw(gr);
-                        pictureBox3.Image = bmp;
-                        DrawShop();
+                        Interface git = shoping.GetGitInShoping(Convert.ToInt32(maskedTextBox1.Text));
+                        if (git != null)
+                        {
+                            Bitmap bmp = new Bitmap(pictureBox3.Width, pictureBox3.Height);
+                            Graphics gr = Graphics.FromImage(bmp);
+                            git.setPos(5, 15);
+                            git.draw(gr);
+                            pictureBox3.Image = bmp;
+                            DrawShop();
+                        }
                     }
-                    else
+                    catch (ShopIndexOutOfRangeException ex)
                     {
-                        MessageBox.Show("Извинте, на этом месте нет");
+                        MessageBox.Show(ex.Message, "Неверный номер", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        log.Warn("Ошибка ввода номера гитары");
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Общая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
 
@@ -98,6 +135,7 @@ namespace Lab2
             shoping.LevelDown();
             listBox1.SelectedIndex = shoping.getCurrentLevel;
             DrawShop();
+            log.Info("Спустились на уровень ниже, сечас мы на " + shoping.getCurrentLevel);
         }
 
         private void buttonUp_Click(object sender, EventArgs e)
@@ -105,26 +143,14 @@ namespace Lab2
             shoping.LevelUp();
             listBox1.SelectedIndex = shoping.getCurrentLevel;
             DrawShop();
+            log.Info("Поднялись на уровень выше, сечас мы на " + shoping.getCurrentLevel);
         }
 
         private void buttonSetGit_Click(object sender, EventArgs e)
         {
             form = new FormSelect();
+            form.AddEvent(addGit);
             form.ShowDialog();
-            var git = form.getGit;
-            if (git != null)
-            {
-                int place = shoping.PutGitInShoping(git);
-                if (place > -1)
-                {
-                    DrawShop();
-                    MessageBox.Show("Ваше место: " + place);
-                }
-                else
-                {
-                    MessageBox.Show("Машину не удалось поставить");
-                }
-            }
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)

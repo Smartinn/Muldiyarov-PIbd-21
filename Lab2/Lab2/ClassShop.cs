@@ -17,7 +17,7 @@ namespace Lab2
         {
             if(p.places.Count == p.maxCount)
             {
-                return -1;
+                throw new ShopOverFlow();
             }
             for(int i = 0; i < p.places.Count; i++)
             {
@@ -39,7 +39,7 @@ namespace Lab2
                 p.places.Remove(index);
                 return git;
             }
-            return p.defaultValue;
+            throw new ShopIndexOutOfRangeException();
         }
 
         private bool CheckFreePlace(int index)
