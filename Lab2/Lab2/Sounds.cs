@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab2
 {
-    class Sounds : Gitara
+    class Sounds : Gitara, IComparable<Sounds>, IEquatable<Gitara>
     {
         private Color dopColor;
         private int powerUsilit;
@@ -54,6 +54,62 @@ namespace Lab2
         {
             return MaxSound + ";" + MaxCountMusic + ";" + Weight + ";" + countStrun + ";"
                 + ColorBoby.Name + ";" + powerUsilit + ";" + notka + ";" + dopColor.Name;
+        }
+
+        public int CompareTo(Sounds other)
+        {
+            var res = (this is Gitara).CompareTo(other is Gitara);
+            if(res != 0)
+            {
+                return res;
+            }
+            if(powerUsilit != other.powerUsilit)
+            {
+                return powerUsilit.CompareTo(other.powerUsilit);
+            }
+            if(notka != other.notka)
+            {
+                return notka.CompareTo(other.notka);
+            }
+            return 0;
+        }
+
+        public bool Equals(Sounds other)
+        {
+            var res = (this is Gitara).Equals(other is Gitara);
+            if (!res)
+            {
+                return res;
+            }
+            if (powerUsilit != other.powerUsilit)
+            {
+                return false;
+            }
+            if (notka != other.notka)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            Sounds gitObj = obj as Sounds;
+            if (gitObj == null)
+            {
+                return false;
+            }
+            else
+                return Equals(gitObj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

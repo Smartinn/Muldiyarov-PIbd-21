@@ -69,6 +69,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shop.cs" />
+    <Compile Include="ShopAlreadyHave.cs" />
     <Compile Include="ShopIndexOutOfRangeException.cs" />
     <Compile Include="ShopOverFlow.cs" />
     <Compile Include="Sounds.cs" />
