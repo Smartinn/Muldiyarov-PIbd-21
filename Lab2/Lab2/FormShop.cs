@@ -88,6 +88,11 @@ namespace Lab2
                     MessageBox.Show(ex.Message, "Гитару поставить не удалось", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     log.Warn("Ошибка добавления гитары");
                 }
+                catch (ShopAlreadyHave ex)
+                {
+                    MessageBox.Show(ex.Message, "Такая гитара существует", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    log.Warn("Гитара уже существует");
+                }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Общая ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -188,5 +193,11 @@ namespace Lab2
             }
         }
 
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            shoping.Sort();
+            DrawShop();
+            log.Info("Сортировка уровня " + shoping.getCurrentLevel);
+        }
     }
 }
