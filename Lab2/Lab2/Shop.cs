@@ -58,15 +58,18 @@ namespace Lab2
         public void Draw(Graphics g)
         {
             DrawMarket(g);
-            for (int i = 0; i < countPlaces; i++)
-            {
-                var git = shoping[currentLevel][i];
-                if (git != null)
-                {
-                    git.setPos(50 + i / 2 * placesSizeWidth, i % 2 * placesSizeHight + 15);
-                    git.draw(g);
-                }
+            int i = 0;
+            foreach(var git in shoping[currentLevel])
+            { 
+              git.setPos(50 + i / 2 * placesSizeWidth, i % 2 * placesSizeHight + 15);
+              git.draw(g);
+              i++;
             }
+        }
+
+        public void Sort()
+        {
+            shoping.Sort();
         }
 
         public void DrawMarket(Graphics g)
