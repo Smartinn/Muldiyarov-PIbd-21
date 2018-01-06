@@ -14,9 +14,9 @@ public class ClassShop<T extends Interface> implements Serializable {
 		maxCount = sizes;
 	}
 
-	public static <T extends Interface> int plus(ClassShop<T> p, T plane)
+	public static <T extends Interface> int plus(ClassShop<T> p, T plane) throws ShopOverflowException
 	{
-		if (p.places.size() == p.maxCount) return -1;
+		if (p.places.size() == p.maxCount) throw new ShopOverflowException();
 		for(int i = 0; i < p.places.size(); i++)
 		{
 			if (p.checkFree(i))
@@ -29,7 +29,7 @@ public class ClassShop<T extends Interface> implements Serializable {
 		return p.places.size() - 1;
 	}
 
-	public static <T extends Interface> T minus(ClassShop<T> p, int index)
+	public static <T extends Interface> T minus(ClassShop<T> p, int index) throws ShopIndexOutOfRangeException
 	{
 		if (p.places.get(index) != null)
 		{
@@ -37,7 +37,8 @@ public class ClassShop<T extends Interface> implements Serializable {
 			p.places.remove(index);
 			return plane;
 		}
-		return p.defaultValue;
+		throw new ShopIndexOutOfRangeException();
+		
 	}
 
 	public boolean checkFree(int index)

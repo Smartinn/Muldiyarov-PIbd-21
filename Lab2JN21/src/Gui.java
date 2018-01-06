@@ -19,6 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Gui {
 
 	private JFrame frame;
@@ -28,6 +32,8 @@ public class Gui {
 	private String[] elements = new String[6];
 	JList listLevels;
 	Shop shoping;
+	
+	private static Logger log;
 
 	/**
 	 * Launch the application.
@@ -52,8 +58,19 @@ public class Gui {
 	 */
 	public Gui() {
 		shoping = new Shop(5);
+		log = Logger.getLogger(Gui.class.getName());
+ 		FileHandler fh = null;
+ 		try {
+ 			fh = new FileHandler("E:\\log.txt");
+ 		} catch (SecurityException e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		} catch (IOException e) {
+ 			// TODO Auto-generated catch block
+ 		e.printStackTrace();
+ 		}
+ 		log.addHandler(fh);
 		initialize();
-
 		for (int i = 0; i < 5; i++) {
 			elements[i] = "Уровнь " + (i + 1);
 		}
@@ -69,7 +86,17 @@ public class Gui {
 		SelectGui select = new SelectGui(frame);
 		if (select.res()) {
 			Interface git = select.getGit();
-			int place = shoping.putGitInShoping(git);
+			int place = 0;
+			 			try {
+			 				place = shoping.putGitInShoping(git);
+			 				log.log(Level.INFO,"Поставили гитару на место " + place);
+			 			} catch (ShopOverflowException e) {
+			 				// TODO Auto-generated catch block
+			 				e.printStackTrace();
+			 				JOptionPane.showMessageDialog(null, "Ошибка переполнения");
+			 			} catch (Exception ex) {
+			 			JOptionPane.showMessageDialog(null, "Общая ошибка");
+			 			}
 			panel.repaint();
 		}
 	}
@@ -94,8 +121,16 @@ public class Gui {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (checkPlace(numPlace.getText())) {
-					Interface plane = shoping.GetGitInShoping(Integer
-							.parseInt(numPlace.getText()));
+					Interface plane = null;
+					 					try {
+					 						plane = shoping.GetGitInShoping(Integer.parseInt(numPlace.getText()));
+					 						log.log(Level.INFO,"Забрали гитару с места " + numPlace.getText());
+					 					} catch (ShopIndexOutOfRangeException e) {
+					 						// TODO Auto-generated catch block
+					 						JOptionPane.showMessageDialog(null, "Неверный номер");
+					 					} catch (Exception ex) {
+					 						JOptionPane.showMessageDialog(null, "Общая ошибка");
+					 					}
 					Graphics gr = panelTake.getGraphics();
 					gr.clearRect(0, 0, panelTake.getWidth(),
 							panelTake.getHeight());
@@ -132,6 +167,7 @@ public class Gui {
 			public void actionPerformed(ActionEvent arg0) {
 				shoping.levelDown();
 				listLevels.setSelectedIndex(shoping.getCurrentLevel());
+				log.log(Level.INFO,"Спустились на уровень ниже");
 				panel.repaint();
 			}
 		});
@@ -143,6 +179,7 @@ public class Gui {
 			public void actionPerformed(ActionEvent e) {
 				shoping.levelUp();
 				listLevels.setSelectedIndex(shoping.getCurrentLevel());
+				log.log(Level.INFO,"Поднялись на уровень выше");
 				panel.repaint();
 			}
 		});
@@ -166,8 +203,10 @@ public class Gui {
 				if (filesave.showDialog(null, "Save") == JFileChooser.APPROVE_OPTION) {
 					try {
 						if (shoping.save(filesave.getSelectedFile().getPath()))
-							if (filesave.getSelectedFile().getPath() != null)
-								System.out.println("Good");
+							if (filesave.getSelectedFile().getPath() != null) {
+  								System.out.println("Good");
+ 								log.log(Level.INFO,"Сохранил в файл " + filesave.getSelectedFile().getName());
+ 							}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -181,8 +220,10 @@ public class Gui {
 				JFileChooser fileopen = new JFileChooser();
 				if (fileopen.showDialog(null, "Open") == JFileChooser.APPROVE_OPTION) {
 					if (shoping.load(fileopen.getSelectedFile().getPath()))
-						if (fileopen.getSelectedFile().getPath() != null)
-							System.out.println("Good");
+						if (fileopen.getSelectedFile().getPath() != null) {
+  							System.out.println("Good");
+ 							log.log(Level.INFO,"Загрузили из файла " + fileopen.getSelectedFile().getName());
+ 						}
 				}
 				panel.repaint();
 			}
