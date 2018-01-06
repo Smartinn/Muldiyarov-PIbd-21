@@ -11,7 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.print.DocFlavor.BYTE_ARRAY;
-public class Shop implements Serializable{
+
+public class Shop implements Serializable {
 
 	ArrayList<ClassShop<Interface>> shopingStages;
 	int countPlaces = 6;
@@ -40,12 +41,13 @@ public class Shop implements Serializable{
 			currentLevel--;
 	}
 
-	public int putGitInShoping(Interface git) {
+	public int putGitInShoping(Interface git) throws ShopOverflowException {
 		return shopingStages.get(currentLevel).plus(
 				shopingStages.get(currentLevel), git);
 	}
 
-	public Interface GetGitInShoping(int index) {
+	public Interface GetGitInShoping(int index)
+			throws ShopIndexOutOfRangeException {
 		return shopingStages.get(currentLevel).minus(
 				shopingStages.get(currentLevel), index);
 	}
@@ -74,9 +76,8 @@ public class Shop implements Serializable{
 		}
 
 	}
-	
-	public boolean save(String fileName) throws IOException {
 
+	public boolean save(String fileName) throws IOException {
 		FileOutputStream save = null;
 		try {
 			save = new FileOutputStream(fileName);
@@ -84,26 +85,23 @@ public class Shop implements Serializable{
 			e.printStackTrace();
 		}
 		ObjectOutputStream obSave = new ObjectOutputStream(save);
-		System.out.println(shopingStages.get(0).getGit(0).getInfo());
 		obSave.writeObject(shopingStages);
 		return true;
 	}
 
 	public boolean load(String filename) {
 		try {
-			ObjectInputStream obLoad = new ObjectInputStream(new BufferedInputStream(new FileInputStream(filename)));
+			ObjectInputStream obLoad = new ObjectInputStream(
+					new BufferedInputStream(new FileInputStream(filename)));
 			try {
-				shopingStages = (ArrayList<ClassShop<Interface>>)obLoad.readObject();
-				System.out.println(shopingStages.get(0).getGit(0).getInfo());
+				shopingStages = (ArrayList<ClassShop<Interface>>) obLoad
+						.readObject();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return true;
 	}
 
