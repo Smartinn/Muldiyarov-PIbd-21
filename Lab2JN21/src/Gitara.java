@@ -73,10 +73,11 @@ public class Gitara extends Guid implements Serializable {
 		startPosX = x;
 		startPosY = y + 50;
 	}
-	
-	public void setMainColor(Color c){
+
+	public void setMainColor(Color c) {
 		ColorBody = c;
 	}
+
 	public void makesound(Graphics g) {
 		draw(g);
 		drawSounds(g);
@@ -124,25 +125,76 @@ public class Gitara extends Guid implements Serializable {
 		}
 
 	}
-	
+
 	@Override
 	public String getInfo() {
-		return MaxSound + ";" + MaxCountMusic + ";" + Weight + ";" + countStrun + ";" + ColorBody;
+		return MaxSound + ";" + MaxCountMusic + ";" + Weight + ";" + countStrun
+				+ ";" + ColorBody;
 	}
-	
+
 	private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        s.writeInt(ColorBody.getRed());
-        s.writeInt(ColorBody.getGreen());
-        s.writeInt(ColorBody.getBlue());
-    }
+		s.defaultWriteObject();
+		s.writeInt(ColorBody.getRed());
+		s.writeInt(ColorBody.getGreen());
+		s.writeInt(ColorBody.getBlue());
+	}
 
-    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        int red = s.readInt();
-        int green = s.readInt();
-        int blue = s.readInt();
-        ColorBody = new Color(red, green, blue);
-    }
+	private void readObject(ObjectInputStream s) throws IOException,
+			ClassNotFoundException {
+		s.defaultReadObject();
+		int red = s.readInt();
+		int green = s.readInt();
+		int blue = s.readInt();
+		ColorBody = new Color(red, green, blue);
+	}
 
+	public int compareTo(Gitara gitara) {
+		// TODO Auto-generated method stub
+		if (gitara == null)
+			return 1;
+		if (MaxSound != gitara.MaxSound)
+			return (MaxSound + "").compareTo(gitara.MaxSound + "");
+		if (MaxCountMusic != gitara.MaxCountMusic)
+			return (MaxCountMusic + "").compareTo(gitara.MaxCountMusic + "");
+		if (Weight != gitara.Weight)
+			return (Weight + "").compareTo(gitara.Weight + "");
+		if (countMusic != gitara.countMusic)
+			return (countMusic + "").compareTo(gitara.countMusic + "");
+		if (ColorBody != gitara.ColorBody)
+			return ColorBody.toString().compareTo(gitara.ColorBody.toString());
+		return 0;
+	}
+
+	public boolean equals(Gitara other) {
+		if (other == null)
+			return false;
+		if (MaxSound != other.MaxSound) {
+			return false;
+		}
+		if (MaxCountMusic != other.MaxCountMusic) {
+			return false;
+		}
+		if (Weight != other.Weight) {
+			return false;
+		}
+		if (countMusic != other.countMusic) {
+			return false;
+		}
+		if (ColorBody != other.ColorBody) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		Gitara gitObj = (Gitara) obj;
+		if (gitObj == null) {
+			return false;
+		} else
+			return equals(gitObj);
+	}
 }

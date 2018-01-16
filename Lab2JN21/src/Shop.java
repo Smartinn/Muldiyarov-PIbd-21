@@ -11,7 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.print.DocFlavor.BYTE_ARRAY;
-
+import java.util.Collections;
+import java.util.Comparator;
 public class Shop implements Serializable {
 
 	ArrayList<ClassShop<Interface>> shopingStages;
@@ -41,7 +42,7 @@ public class Shop implements Serializable {
 			currentLevel--;
 	}
 
-	public int putGitInShoping(Interface git) throws ShopOverflowException {
+	public int putGitInShoping(Interface git) throws ShopOverflowException, ShopAlreadyHaveException {
 		return shopingStages.get(currentLevel).plus(
 				shopingStages.get(currentLevel), git);
 	}
@@ -104,5 +105,16 @@ public class Shop implements Serializable {
 		}
 		return true;
 	}
+	
+	public void sort() {
+				Collections.sort(shopingStages, new Comparator<ClassShop<Interface>>() {
+		
+					@Override
+					public int compare(ClassShop<Interface> o1, ClassShop<Interface> o2) {
+						// TODO Auto-generated method stub
+						return o1.compareTo(o2);
+					}
+				});
+			}
 
 }
