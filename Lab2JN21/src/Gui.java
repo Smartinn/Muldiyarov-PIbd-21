@@ -160,6 +160,15 @@ public class Gui {
 
 		listLevels = new JList(elements);
 		listLevels.setBounds(668, 11, 186, 111);
+		JButton btnSort = new JButton("Sort");
+				btnSort.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						shoping.sort();
+						panel.repaint();
+					}
+				});
+				btnSort.setBounds(540, 400, 115, 23);
+				frame.getContentPane().add(btnSort);
 		frame.getContentPane().add(listLevels);
 
 		JButton btnLevelDown = new JButton("<<");
